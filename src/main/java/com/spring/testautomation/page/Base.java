@@ -1,8 +1,6 @@
 package com.spring.testautomation.page;
 
 import com.github.javafaker.Faker;
-import com.spring.testautomation.config.FakerConfig;
-
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.openqa.selenium.WebDriver;
