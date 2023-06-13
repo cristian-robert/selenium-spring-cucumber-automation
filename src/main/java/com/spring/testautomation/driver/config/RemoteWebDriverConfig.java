@@ -1,5 +1,6 @@
-package com.spring.testautomation.config;
+package com.spring.testautomation.driver.config;
 
+import com.spring.testautomation.driver.annotations.LazyConfiguration;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -14,8 +15,7 @@ import java.net.URL;
 /**
  * @author cristian_iosef
  */
-@Lazy
-@Configuration
+@LazyConfiguration
 @Profile("remote")
 public class RemoteWebDriverConfig {
 

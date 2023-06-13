@@ -1,17 +1,17 @@
 package com.spring.testautomation.page.google;
 
+import com.spring.testautomation.driver.annotations.PageFragment;
 import com.spring.testautomation.page.Base;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * @author cristian_iosef
  */
-@Component
+@PageFragment
 public class SearchComponent extends Base {
 
     @FindBy(name = "q")

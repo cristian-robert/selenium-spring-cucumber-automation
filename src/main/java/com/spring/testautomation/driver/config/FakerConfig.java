@@ -1,10 +1,10 @@
-package com.spring.testautomation.config;
+package com.spring.testautomation.driver.config;
 
 import com.github.javafaker.Faker;
+import com.spring.testautomation.driver.annotations.LazyConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
+@LazyConfiguration
 public class FakerConfig {
 
     @Bean
