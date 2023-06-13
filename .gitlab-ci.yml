@@ -10,8 +10,11 @@ image: markhobson/maven-chrome
 stages:
 - test
 
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
 test:
   stage: test
   script:
-    - maven clean test
+    - mvn clean test
 
