@@ -33,6 +33,7 @@ public class WebDriverConfig {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--headless");
         options.setExperimentalOption("prefs", prefs);
         options.addArguments("--start-maximized");
         return new ChromeDriver(options);
