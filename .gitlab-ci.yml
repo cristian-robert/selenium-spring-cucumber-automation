@@ -9,5 +9,8 @@ stages:
 - test
 sast:
   stage: test
+  script:
+    - maven clean test
 include:
 - template: Security/SAST.gitlab-ci.yml
+
