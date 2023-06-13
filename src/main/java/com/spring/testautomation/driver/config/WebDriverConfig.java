@@ -31,6 +31,7 @@ public class WebDriverConfig {
         Map prefs = new HashMap();
         prefs.put("profile.default_content_settings.cookies", 2);
         ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
         options.setExperimentalOption("prefs", prefs);
         options.addArguments("--start-maximized");
