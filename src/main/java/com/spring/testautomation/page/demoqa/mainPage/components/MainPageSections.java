@@ -4,8 +4,10 @@ import com.spring.testautomation.driver.annotations.PageFragment;
 import com.spring.testautomation.enums.ApplicationCategories;
 import com.spring.testautomation.enums.ElementsDropdownOptions;
 import com.spring.testautomation.page.Base;
+import com.spring.testautomation.page.utils.Utils;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.List;
 @PageFragment
 public class MainPageSections extends Base {
 
+    @Autowired
+    private Utils utils;
     @FindBy(xpath = "//div[@class='category-cards']/div")
     private List<WebElement> sections;
 
@@ -29,14 +33,14 @@ public class MainPageSections extends Base {
 
     @Override
     public boolean isAt() {
-        return this.wait.until((d) -> this.sections.stream().allMatch(WebElement::isDisplayed));
+        return this.wait.until((d) -> this.sections.size() > 0);
     }
 
     public void clickSection(final String sectionName){
         this.sections.stream()
                 .filter(e -> e.isDisplayed() && e.isEnabled() && e.getText().equals(sectionName))
                 .findFirst()
-                .ifPresent(WebElement::click);
+                .ifPresent(d -> utils.scrollAndClickJs(d));
     }
 
     public boolean allSectionsMatchText(){

@@ -10,6 +10,8 @@ import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testng.Assert;
 
+import java.util.Objects;
+
 /**
  * @author cristian_iosef
  */
@@ -86,5 +88,27 @@ public class DemoQaSteps {
     @Then("I check for field errors")
     public void iCheckForFieldErrors() {
         Assert.assertTrue(demoQaMainPage.getTextBoxSection().checkFieldErrorsDisplayed());
+    }
+
+    @When("I click on the {string} dropdown")
+    public void iClickOnTheDropdown(String dropdownName) {
+        if(Objects.equals(dropdownName, "home")){
+            if(demoQaMainPage.getCheckboxSection().checkAllSectionsCollapsed()) {
+                demoQaMainPage.getCheckboxSection().clickDropdown(dropdownName);
+            }
+        } else {
+            demoQaMainPage.getCheckboxSection().clickDropdown(dropdownName);
+        }
+    }
+
+    @And("I click on the {string} checkbox")
+    public void iClickOnTheCheckbox(String checkboxName) {
+        demoQaMainPage.getCheckboxSection().clickCheckbox(checkboxName);
+    }
+
+    @Then("I see I have selected {string} {string} checkboxes")
+    public void iSeeIHaveSelectedCheckboxes(String checkbox1, String checkbox2) {
+        Assert.assertTrue(demoQaMainPage.getCheckboxSection().checkSuccessMessage(checkbox1));
+        Assert.assertTrue(demoQaMainPage.getCheckboxSection().checkSuccessMessage(checkbox2));
     }
 }

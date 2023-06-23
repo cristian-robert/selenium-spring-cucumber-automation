@@ -3,6 +3,7 @@ package com.spring.testautomation.page.demoqa.mainPage;
 import com.spring.testautomation.driver.annotations.LazyAutowired;
 import com.spring.testautomation.driver.annotations.Page;
 import com.spring.testautomation.page.Base;
+import com.spring.testautomation.page.demoqa.mainPage.components.CheckboxSection;
 import com.spring.testautomation.page.demoqa.mainPage.components.ElementsSection;
 import com.spring.testautomation.page.demoqa.mainPage.components.MainPageSections;
 import com.spring.testautomation.page.demoqa.mainPage.components.TextBoxSection;
@@ -13,6 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @Page
 public class DemoQaMainPage extends Base{
+
+    @LazyAutowired
+    private CheckboxSection checkboxSection;
 
     @LazyAutowired
     private MainPageSections mainPageSections;
@@ -54,5 +58,9 @@ public class DemoQaMainPage extends Base{
 
     public ElementsSection getElementsSection() {
         return elementsSection;
+    }
+
+    public CheckboxSection getCheckboxSection() {
+        return checkboxSection;
     }
 }

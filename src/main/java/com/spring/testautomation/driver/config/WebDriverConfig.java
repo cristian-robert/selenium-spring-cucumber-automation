@@ -6,11 +6,10 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
-import org.springframework.context.annotation.Primary;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Profile;
 
 import java.util.HashMap;
@@ -24,8 +23,7 @@ import java.util.Map;
 public class WebDriverConfig {
 
     @ThreadScopeBean
-    @Primary
-//    @ConditionalOnProperty(name = "application.browser", havingValue = "chrome")
+    @ConditionalOnProperty(name = "application.browser", havingValue = "chrome")
     public WebDriver chromeDriver(){
         WebDriverManager.chromedriver().setup();
         Map prefs = new HashMap();
@@ -34,13 +32,14 @@ public class WebDriverConfig {
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--headless");
+        options.addArguments("--window-size=1920,1080");
         options.setExperimentalOption("prefs", prefs);
         options.addArguments("--start-maximized");
         return new ChromeDriver(options);
     }
 
     @ThreadScopeBean
-//    @ConditionalOnProperty(name = "application.browser", havingValue = "firefox")
+    @ConditionalOnProperty(name = "application.browser", havingValue = "firefox")
     public WebDriver firefoxDriver(){
         WebDriverManager.firefoxdriver().setup();
         FirefoxProfile firefoxProfile = new FirefoxProfile();
@@ -50,13 +49,5 @@ public class WebDriverConfig {
 
         return new FirefoxDriver(options);
     }
-
-    @ThreadScopeBean
-//    @ConditionalOnMissingBean
-    public WebDriver defaultDriver(){
-        WebDriverManager.edgedriver().setup();
-        return new EdgeDriver();
-    }
-
 
 }

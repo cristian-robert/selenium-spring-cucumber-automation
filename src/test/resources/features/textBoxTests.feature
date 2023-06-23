@@ -25,3 +25,5 @@ Feature: Text box tests
     Examples:
       | fullname   | email           | currentaddress             | permanentaddress             |
       | Automation | demoqa-automati | This is my current address | This is my permanent address |
+
+
