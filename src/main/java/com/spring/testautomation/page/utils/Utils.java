@@ -5,6 +5,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class Utils extends Base {
 
     @Autowired
-    private WebDriver driver;
+    private ApplicationContext applicationContext;
 
     @Override
     public boolean isAt() {
@@ -22,7 +23,7 @@ public class Utils extends Base {
     }
 
     public void scrollAndClickJs(WebElement element){
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);" +
+        ((JavascriptExecutor) this.applicationContext.getBean(WebDriver.class)).executeScript("arguments[0].scrollIntoView(true);" +
                 "arguments[0].click();", element);
     }
 

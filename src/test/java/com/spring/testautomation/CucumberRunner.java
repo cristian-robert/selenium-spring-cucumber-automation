@@ -12,7 +12,7 @@ import org.testng.annotations.DataProvider;
         glue = "com.spring.testautomation.demoqa",
         plugin = {"pretty", "html:target/cucumber-reports/cucumber-pretty.html", "json:target/cucumber-reports/CucumberTestReport.json"})
 public class CucumberRunner extends AbstractTestNGCucumberTests {
-    @DataProvider(parallel = false)
+    @DataProvider(parallel = true)
     @Override
     public Object[][] scenarios() {
         return super.scenarios();
