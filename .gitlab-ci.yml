@@ -5,7 +5,6 @@
 # Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
-image: markhobson/maven-chrome
 
 stages:
   - test
@@ -13,16 +12,27 @@ stages:
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  DOCKER_HOST: tcp://docker:2375
+
+before_script:
+  - export DOCKER_HOST
 
 test_a:
+  image: markhobson/maven-chrome
   stage: test
   script:
     - mvn clean test
 
 test_b:
+  image: maven:3.8.3-openjdk-11
   stage: test
+  services:
+    - docker:dind
+  before_script:
+    - apt-get update && apt-get install -y docker-compose
   script:
-    - docker-compose up -d --build
+    - echo "${DOCKER_HOST}"
+    - docker-compose up
     - mvn clean test -Dspring.profiles.active=remote
 
 report_a:
@@ -34,8 +44,8 @@ report_a:
       - target/
     expire_in: 1 week
     when: always
-    dependencies:
-      - test_a
+  dependencies:
+    - test_a
 
 report_b:
   stage: report
@@ -47,4 +57,4 @@ report_b:
     expire_in: 1 week
     when: always
   dependencies:
-    - test_a
+    - test_b
