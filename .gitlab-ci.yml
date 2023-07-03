@@ -32,7 +32,7 @@ test_b:
     - apt-get update && apt-get install -y docker-compose
   script:
     - echo "${DOCKER_HOST}"
-    - docker-compose up -d
+    - docker-compose up
     - mvn clean test -Dspring.profiles.active=remote
 
 report_a:
