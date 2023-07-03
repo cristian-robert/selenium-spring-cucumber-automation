@@ -24,14 +24,15 @@ test_a:
     - mvn clean test
 
 test_b:
-  image: maven:3.8.3-openjdk-17
+  image: yannoff/maven:3-openjdk-19
   stage: test
   services:
     - docker:dind
-  before_script:
-    - apt-get update && apt-get install -y docker-compose
   script:
     - echo "${DOCKER_HOST}"
+    - apk add --no-cache curl
+    - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    - chmod +x /usr/local/bin/docker-compose
     - docker-compose up -d
     - mvn clean test -Dspring.profiles.active=remote
 
