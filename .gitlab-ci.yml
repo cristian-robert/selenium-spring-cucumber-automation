@@ -8,16 +8,43 @@
 image: markhobson/maven-chrome
 
 stages:
-- test
+  - test
+  - report
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
-test:
+test_a:
   stage: test
   script:
     - mvn clean test
+
+test_b:
+  stage: test
+  script:
+    - docker-compose up -d --build
+    - mvn clean test -Dspring.profiles.active=remote
+
+report_a:
+  stage: report
+  script:
+    - mvn cluecumber-report:reporting
   artifacts:
     paths:
       - target/
+    expire_in: 1 week
+    when: always
+    dependencies:
+      - test_a
 
+report_b:
+  stage: report
+  script:
+    - mvn cluecumber-report:reporting
+  artifacts:
+    paths:
+      - target/
+    expire_in: 1 week
+    when: always
+  dependencies:
+    - test_a
