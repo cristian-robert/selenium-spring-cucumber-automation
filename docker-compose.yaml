@@ -1,15 +1,11 @@
 version: "3"
 services:
   hub:
-    build:
-      context: .
     shm_size: '2gb'
     image: selenium/hub:latest
     ports:
       - "4444:4444"
   chrome:
-    build:
-      context: .
     shm_size: '4gb'
     image: selenium/node-chrome:4.2.1-20220608
     depends_on:
