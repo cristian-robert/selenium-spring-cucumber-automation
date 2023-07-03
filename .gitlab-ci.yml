@@ -24,7 +24,7 @@ test_a:
     - mvn clean test
 
 test_b:
-  image: maven:3.8.3-openjdk-11
+  image: yannoff/maven:3-openjdk-19
   stage: test
   services:
     - docker:dind
