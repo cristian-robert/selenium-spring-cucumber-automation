@@ -5,6 +5,7 @@
 # Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
+
 stages:
   - test
   - report
@@ -19,8 +20,12 @@ test_a:
     - mvn clean test
 
 test_b:
-  image: maven:3.8.3-openjdk-11
+  image: 
   stage: test
+  services:
+    - docker:dind
+  before_script:
+    - apt-get update && apt-get install -y docker-compose
   script:
     - docker-compose up -d --build
     - mvn clean test -Dspring.profiles.active=remote
@@ -47,4 +52,4 @@ report_b:
     expire_in: 1 week
     when: always
   dependencies:
-    - test_a
+    - test_b
