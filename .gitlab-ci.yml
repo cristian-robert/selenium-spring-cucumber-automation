@@ -13,6 +13,7 @@ stages:
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   DOCKER_HOST: tcp://docker:2375
+  RUNNER_IP:
 
 before_script:
   - export DOCKER_HOST
@@ -39,7 +40,8 @@ test_b:
     - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     - chmod +x /usr/local/bin/docker-compose
     - docker-compose up -d
-    - mvn clean test -Dspring.profiles.active=remote -Dselenium.grid.url=http://$CI_RUNNER_IP/wd/hub
+    - export RUNNER_IP=$(dig +short host.docker.internal)
+    - mvn clean test -Dspring.profiles.active=remote -Dselenium.grid.url=http://$RUNNER_IP:4444/wd/hub
   artifacts:
     paths:
       - target/
