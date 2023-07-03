@@ -34,8 +34,8 @@ report_a:
       - target/
     expire_in: 1 week
     when: always
-    dependencies:
-      - test_a
+  dependencies:
+    - test_a
 
 report_b:
   stage: report
