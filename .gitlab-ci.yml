@@ -24,16 +24,16 @@ test_a:
     - mvn clean test
 
 test_b:
-  image: maven:3.8.3-openjdk-17
+  image: maven:3.8.4-openjdk-17-slim
   stage: test
   services:
     - docker:dind
   script:
     - echo "${DOCKER_HOST}"
-    - dnf install -y dnf-plugins-core
-    - dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-    - dnf install -y docker-compose
-    - systemctl start docker
+    - apt-get update
+    - apt-get install -y curl
+    - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    - chmod +x /usr/local/bin/docker-compose
     - docker-compose up -d
     - mvn clean test -Dspring.profiles.active=remote
 
