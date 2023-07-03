@@ -32,7 +32,7 @@ test_b:
     - apt-get update && apt-get install -y docker-compose
   script:
     - echo "${DOCKER_HOST}"
-    - docker-compose up
+    - docker-compose up -d
     - mvn clean test -Dspring.profiles.active=remote
 
 report_a:
@@ -44,7 +44,7 @@ report_a:
       - target/
     expire_in: 1 week
     when: always
-  dependencies:
+  needs:
     - test_a
 
 report_b:
@@ -56,5 +56,5 @@ report_b:
       - target/
     expire_in: 1 week
     when: always
-  dependencies:
+  needs:
     - test_b
