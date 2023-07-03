@@ -1,6 +1,7 @@
 package com.spring.testautomation.driver.config;
 
 import com.spring.testautomation.driver.annotations.LazyConfiguration;
+import com.spring.testautomation.driver.annotations.ThreadScopeBean;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -26,8 +27,7 @@ public class RemoteWebDriverConfig {
     @Value("${default.timeout:30}")
     private int timeout;
 
-    @Bean
-    @Primary
+    @ThreadScopeBean
     @ConditionalOnProperty(name = "application.browser", havingValue = "firefox")
     public WebDriver remoteFirefoxDriver(){
 
@@ -37,11 +37,11 @@ public class RemoteWebDriverConfig {
         return new RemoteWebDriver(this.url, firefoxOptions, false);
     }
 
-    @Bean
+    @ThreadScopeBean
     @ConditionalOnProperty(name = "application.browser", havingValue = "chrome")
     public WebDriver remoteChromeDriver(){
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox", "--headless", "--window-size=1024x768");
+        options.addArguments("--no-sandbox", "--headless", "--window-size=1920x1080");
         return new RemoteWebDriver(this.url, options, false);
     }
 

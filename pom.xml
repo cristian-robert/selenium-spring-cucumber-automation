@@ -18,6 +18,7 @@
         <webdrivermanager.version>5.3.0</webdrivermanager.version>
         <testng.version>7.6.0</testng.version>
         <java.version>19</java.version>
+        <cluecumber.version>2.7.0</cluecumber.version>
     </properties>
     <dependencies>
         <dependency>
@@ -103,6 +104,27 @@
                     <includes>
                         <include>com.spring.testautomation.CucumberRunner</include>
                     </includes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.trivago.rta</groupId>
+                <artifactId>cluecumber-report-plugin</artifactId>
+                <version>${cluecumber.version}</version>
+                <executions>
+                    <execution>
+                        <id>report</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>reporting</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sourceJsonReportDirectory>${project.basedir}/target/cucumber-report</sourceJsonReportDirectory>
+                    <generatedHtmlReportDirectory>${project.basedir}/target/full</generatedHtmlReportDirectory>
+                    <expandBeforeAfterHooks>true</expandBeforeAfterHooks>
+                    <expandStepHooks>true</expandStepHooks>
+                    <expandDocStrings>true</expandDocStrings>
                 </configuration>
             </plugin>
         </plugins>
