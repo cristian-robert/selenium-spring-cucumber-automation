@@ -12,6 +12,10 @@ stages:
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  DOCKER_HOST: tcp://docker:2375
+
+before_script:
+  - export DOCKER_HOST
 
 test_a:
   image: markhobson/maven-chrome
@@ -27,6 +31,7 @@ test_b:
   before_script:
     - apt-get update && apt-get install -y docker-compose
   script:
+    - echo "${DOCKER_HOST}"
     - docker-compose up -d --build
     - mvn clean test -Dspring.profiles.active=remote
 
