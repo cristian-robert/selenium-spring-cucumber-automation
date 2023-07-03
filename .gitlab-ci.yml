@@ -22,6 +22,10 @@ test_a:
   stage: test
   script:
     - mvn clean test
+  artifacts:
+    paths:
+      - target/
+    expire_in: 1 week
 
 test_b:
   image: maven:3.8.4-openjdk-17-slim
@@ -35,8 +39,11 @@ test_b:
     - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     - chmod +x /usr/local/bin/docker-compose
     - docker-compose up -d
-    - mvn clean test -Dspring.profiles.active=remote -DseleniumGridUrl=http://hub:4444/wd/hub
-
+    - mvn clean test -Dspring.profiles.active=remote -Dselenium.grid.url=http://$CI_RUNNER_IP/wd/hub
+  artifacts:
+    paths:
+      - target/
+    expire_in: 1 week
 report_a:
   stage: report
   script:
