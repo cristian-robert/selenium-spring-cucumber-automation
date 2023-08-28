@@ -25,7 +25,7 @@ test_a:
     - mvn clean test
   artifacts:
     paths:
-      - target/
+      - .
     expire_in: 1 week
 
 test_b:
@@ -51,25 +51,25 @@ test_b:
       - target/
     expire_in: 1 week
 report_a:
+  image: maven:3.8.4-openjdk-17-slim
   stage: report
   script:
     - mvn cluecumber-report:reporting
   artifacts:
     paths:
-      - target/
+      - target/full/
     expire_in: 1 week
     when: always
-  needs:
-    - test_a
+  needs: [test_a]
 
 report_b:
+  image: maven:3.8.4-openjdk-17-slim
   stage: report
   script:
     - mvn cluecumber-report:reporting
   artifacts:
     paths:
-      - target/
+      - target/full/
     expire_in: 1 week
     when: always
-  needs:
-    - test_b
+  needs: [test_b]
