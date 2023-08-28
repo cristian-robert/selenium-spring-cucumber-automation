@@ -1,3 +1,4 @@
+@TextBox
 Feature: Text box tests
 
   Scenario Outline: Check text box positive scenario
