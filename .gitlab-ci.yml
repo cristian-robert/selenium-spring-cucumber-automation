@@ -59,8 +59,7 @@ report_a:
       - .
     expire_in: 1 week
     when: always
-  needs:
-    - test_a
+  needs: [test_a]
 
 report_b:
   stage: report
@@ -71,5 +70,4 @@ report_b:
       - target/
     expire_in: 1 week
     when: always
-  needs:
-    - test_b
+  needs: [test_b]
