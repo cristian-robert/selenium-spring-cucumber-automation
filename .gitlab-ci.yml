@@ -55,7 +55,7 @@ test_c:
   image: markhobson/maven-chrome
   stage: test
   script:
-    - mvn clean test -Dcucumber.filter.tags="@Smoke and @TextBox"
+    - mvn clean test -Dcucumber.filter.tags="@Smoke or @TextBox"
   artifacts:
     paths:
       - .
