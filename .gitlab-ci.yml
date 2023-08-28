@@ -57,7 +57,7 @@ report_a:
     - mvn cluecumber-report:reporting
   artifacts:
     paths:
-      - .
+      - target/full/
     expire_in: 1 week
     when: always
   needs: [test_a]
@@ -69,7 +69,7 @@ report_b:
     - mvn cluecumber-report:reporting
   artifacts:
     paths:
-      - target/
+      - target/full/
     expire_in: 1 week
     when: always
   needs: [test_b]
