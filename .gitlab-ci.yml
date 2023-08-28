@@ -50,6 +50,16 @@ test_b:
     paths:
       - target/
     expire_in: 1 week
+
+test_c:
+  image: markhobson/maven-chrome
+  stage: test
+  script:
+    - mvn clean test -Dcucumber.filter.tags="@Smoke and @TextBox"
+  artifacts:
+    paths:
+      - .
+    expire_in: 1 week  
 report_a:
   image: maven:3.8.4-openjdk-17-slim
   stage: report
@@ -73,3 +83,15 @@ report_b:
     expire_in: 1 week
     when: always
   needs: [test_b]
+
+report_c:
+  image: maven:3.8.4-openjdk-17-slim
+  stage: report
+  script:
+    - mvn cluecumber-report:reporting
+  artifacts:
+    paths:
+      - target/full/
+    expire_in: 1 week
+    when: always
+  needs: [test_c]
