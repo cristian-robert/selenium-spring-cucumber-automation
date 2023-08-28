@@ -51,6 +51,7 @@ test_b:
       - target/
     expire_in: 1 week
 report_a:
+  image: maven:3.8.4-openjdk-17-slim
   stage: report
   script:
     - mvn cluecumber-report:reporting
@@ -62,6 +63,7 @@ report_a:
   needs: [test_a]
 
 report_b:
+  image: maven:3.8.4-openjdk-17-slim
   stage: report
   script:
     - mvn cluecumber-report:reporting
