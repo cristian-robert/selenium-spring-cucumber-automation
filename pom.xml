@@ -14,11 +14,12 @@
     <name>testautomation</name>
     <description>testautomation</description>
     <properties>
-        <selenium.version>4.2.1</selenium.version>
-        <webdrivermanager.version>5.3.0</webdrivermanager.version>
+        <selenium.version>4.14.1</selenium.version>
+        <webdrivermanager.version>5.5.3</webdrivermanager.version>
         <testng.version>7.6.0</testng.version>
         <java.version>17</java.version>
         <cluecumber.version>2.7.0</cluecumber.version>
+        <restAssured.version>5.3.2</restAssured.version>
     </properties>
     <dependencies>
         <dependency>
@@ -43,6 +44,12 @@
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${restAssured.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
@@ -82,6 +89,23 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jdk8</artifactId>
+            <version>LATEST</version> <!-- Use the appropriate version -->
+        </dependency>
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -98,7 +122,7 @@
                     <properties>
                         <property>
                             <name>dataproviderthreadcount</name>
-                            <value>2</value>
+                            <value>4</value>
                         </property>
                     </properties>
                     <includes>

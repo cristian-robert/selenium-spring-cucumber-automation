@@ -25,13 +25,12 @@ public class WebDriverConfig {
     @ThreadScopeBean
     @ConditionalOnProperty(name = "application.browser", havingValue = "chrome")
     public WebDriver chromeDriver(){
-        WebDriverManager.chromedriver().setup();
         Map prefs = new HashMap();
         prefs.put("profile.default_content_settings.cookies", 2);
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
-        options.addArguments("--headless");
+//        options.addArguments("--headless");
         options.addArguments("--window-size=1920,1080");
         options.setExperimentalOption("prefs", prefs);
         options.addArguments("--start-maximized");
@@ -46,7 +45,6 @@ public class WebDriverConfig {
         firefoxProfile.setPreference("profile.default_content_settings.cookies", 2);
         FirefoxOptions options = new FirefoxOptions();
         options.setProfile(firefoxProfile);
-
         return new FirefoxDriver(options);
     }
 

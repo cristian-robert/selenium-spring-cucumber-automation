@@ -1,3 +1,4 @@
+@UITest
 @TextBox
 Feature: Text box tests
 

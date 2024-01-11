@@ -9,7 +9,7 @@ import org.testng.annotations.DataProvider;
  */
 @CucumberOptions(
         features = "classpath:features",
-        glue = "com.spring.testautomation.demoqa",
+        glue ={"com.spring.testautomation.demoqa", "com.spring.testautomation.apiSteps"},
         plugin = {"pretty", "html:target/cucumber-report/cucumber-pretty.html", "json:target/cucumber-report/cucumber.json"})
 public class CucumberRunner extends AbstractTestNGCucumberTests {
     @DataProvider(parallel = true)

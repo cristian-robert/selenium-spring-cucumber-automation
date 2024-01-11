@@ -96,9 +96,10 @@ public class MainPageSections extends Base {
     public void clickOption(String option){
         this.wait.until((d) -> this.elementsDropdownList.stream()
                 .anyMatch(e -> e.isDisplayed() && e.getText().equals(option)));
-        this.elementsDropdownList.stream()
+        WebElement element = this.elementsDropdownList.stream()
                 .filter(e -> e.isDisplayed() && e.getText().equals(option))
-                .findFirst()
-                .ifPresent(WebElement::click);
+                .findFirst().get();
+        utils.scrollAndClickJs(element);
+
     }
 }

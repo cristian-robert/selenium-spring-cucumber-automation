@@ -24,19 +24,19 @@ public class CucumberHooks {
     @Value("${application.url}")
     private String url;
 
-    @Before
+    @Before("@UITest")
     public void beforeScenario(){
         this.applicationContext.getBean(WebDriver.class).manage().deleteAllCookies();
         this.applicationContext.getBean(WebDriver.class).get(url);
     }
-    @AfterStep
+    @AfterStep("@UITest")
     public void afterStep(Scenario scenario) {
         if(scenario.isFailed()){
             scenario.attach(this.screenshotService.getScreenshot(), "image/png", scenario.getName());
         }
     }
 
-    @After
+    @After("@UITest")
     public void afterScenario(){
         this.applicationContext.getBean(WebDriver.class).quit();
     }
