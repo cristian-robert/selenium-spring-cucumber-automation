@@ -1,4 +1,4 @@
-package com.spring.testautomation.driver.scope;
+package com.spring.selenium.driver.scope;
 
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.SessionId;

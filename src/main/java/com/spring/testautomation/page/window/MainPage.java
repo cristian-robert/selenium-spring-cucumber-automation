@@ -1,7 +1,7 @@
-package com.spring.testautomation.page.window;
+package com.spring.selenium.page.window;
 
-import com.spring.testautomation.driver.annotations.Page;
-import com.spring.testautomation.page.Base;
+import com.spring.selenium.driver.annotations.Page;
+import com.spring.selenium.page.Base;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;

@@ -1,7 +1,7 @@
-package com.spring.testautomation.driver.config;
+package com.spring.selenium.driver.config;
 
-import com.spring.testautomation.driver.annotations.LazyConfiguration;
-import com.spring.testautomation.driver.annotations.ThreadScopeBean;
+import com.spring.selenium.driver.annotations.LazyConfiguration;
+import com.spring.selenium.driver.annotations.ThreadScopeBean;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;

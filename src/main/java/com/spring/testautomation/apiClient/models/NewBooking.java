@@ -1,4 +1,4 @@
-package com.spring.testautomation.apiClient.models;
+package com.spring.selenium.apiClient.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

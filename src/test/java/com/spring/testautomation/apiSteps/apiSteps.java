@@ -1,14 +1,14 @@
-package com.spring.testautomation.apiSteps;
+package com.spring.selenium.apiSteps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
-import com.spring.testautomation.apiClient.RestAssuredConfig;
-import com.spring.testautomation.apiClient.models.Booking;
-import com.spring.testautomation.apiClient.models.BookingDates;
-import com.spring.testautomation.apiClient.models.BookingId;
-import com.spring.testautomation.apiClient.models.NewBooking;
-import com.spring.testautomation.context.ScenarioContext;
+import com.spring.selenium.apiClient.RestAssuredConfig;
+import com.spring.selenium.apiClient.models.Booking;
+import com.spring.selenium.apiClient.models.BookingDates;
+import com.spring.selenium.apiClient.models.BookingId;
+import com.spring.selenium.apiClient.models.NewBooking;
+import com.spring.selenium.context.ScenarioContext;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;

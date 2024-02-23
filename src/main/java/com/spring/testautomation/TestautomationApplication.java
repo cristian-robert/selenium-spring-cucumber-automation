@@ -1,4 +1,4 @@
-package com.spring.testautomation;
+package com.spring.selenium;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,7 +1,7 @@
-package com.spring.testautomation.demoqa;
+package com.spring.selenium.demoqa;
 
-import com.spring.testautomation.driver.annotations.LazyAutowired;
-import com.spring.testautomation.page.demoqa.mainPage.DemoQaMainPage;
+import com.spring.selenium.driver.annotations.LazyAutowired;
+import com.spring.selenium.page.demoqa.mainPage.DemoQaMainPage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;

@@ -2,12 +2,12 @@
 <suite name="spring-boot" parallel="tests">
 <!--    <test name="test-1">-->
 <!--        <classes>-->
-<!--            <class name="com.spring.testautomation.googleTest.GoogleTest" />-->
+<!--            <class name="com.spring.selenium.googleTest.GoogleTest" />-->
 <!--        </classes>-->
 <!--    </test>-->
 <!--    <test name="test-2">-->
 <!--        <classes>-->
-<!--            <class name="com.spring.testautomation.googleTest.GoogleTest2" />-->
+<!--            <class name="com.spring.selenium.googleTest.GoogleTest2" />-->
 <!--        </classes>-->
 <!--    </test>-->
     <test name="test-5">

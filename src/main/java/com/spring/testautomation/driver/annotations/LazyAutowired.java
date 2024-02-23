@@ -1,4 +1,4 @@
-package com.spring.testautomation.driver.annotations;
+package com.spring.selenium.driver.annotations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

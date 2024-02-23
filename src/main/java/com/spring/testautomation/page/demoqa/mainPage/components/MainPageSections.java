@@ -1,10 +1,10 @@
-package com.spring.testautomation.page.demoqa.mainPage.components;
+package com.spring.selenium.page.demoqa.mainPage.components;
 
-import com.spring.testautomation.driver.annotations.PageFragment;
-import com.spring.testautomation.enums.ApplicationCategories;
-import com.spring.testautomation.enums.ElementsDropdownOptions;
-import com.spring.testautomation.page.Base;
-import com.spring.testautomation.page.utils.Utils;
+import com.spring.selenium.driver.annotations.PageFragment;
+import com.spring.selenium.enums.ApplicationCategories;
+import com.spring.selenium.enums.ElementsDropdownOptions;
+import com.spring.selenium.page.Base;
+import com.spring.selenium.page.utils.Utils;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
-package com.spring.testautomation.demoqa;
+package com.spring.selenium.demoqa;
 
-import com.spring.testautomation.driver.annotations.LazyAutowired;
-import com.spring.testautomation.driver.service.ScreenshotService;
+import com.spring.selenium.driver.annotations.LazyAutowired;
+import com.spring.selenium.driver.service.ScreenshotService;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;

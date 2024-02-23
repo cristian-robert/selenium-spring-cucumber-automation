@@ -1,6 +1,6 @@
-package com.spring.testautomation.driver.config;
+package com.spring.selenium.driver.config;
 
-import com.spring.testautomation.driver.annotations.LazyConfiguration;
+import com.spring.selenium.driver.annotations.LazyConfiguration;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Value;

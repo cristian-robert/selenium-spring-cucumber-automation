@@ -8,11 +8,18 @@
         <version>3.0.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>com.spring</groupId>
     <artifactId>testautomation</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
     <name>testautomation</name>
     <description>testautomation</description>
+    <modules>
+        <module>restAssured</module>
+        <module>selenium</module>
+        <module>common</module>
+    </modules>
     <properties>
         <selenium.version>4.14.1</selenium.version>
         <webdrivermanager.version>5.5.3</webdrivermanager.version>
@@ -122,11 +129,12 @@
                     <properties>
                         <property>
                             <name>dataproviderthreadcount</name>
-                            <value>4</value>
+                            <value>1</value>
                         </property>
                     </properties>
                     <includes>
-                        <include>com.spring.testautomation.CucumberRunner</include>
+                        <include>com.spring.selenium.CucumberRunner</include>
+                        <include>com.spring.restassured.CucumberRunner</include>
                     </includes>
                 </configuration>
             </plugin>

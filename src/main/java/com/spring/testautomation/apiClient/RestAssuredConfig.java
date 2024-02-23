@@ -1,4 +1,4 @@
-package com.spring.testautomation.apiClient;
+package com.spring.selenium.apiClient;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
