@@ -7,6 +7,8 @@ import com.spring.selenium.page.Base;
 import com.spring.selenium.page.demoqa.mainPage.components.CheckboxSection;
 import com.spring.selenium.page.demoqa.mainPage.components.ElementsSection;
 import com.spring.selenium.page.demoqa.mainPage.components.MainPageSections;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -26,6 +28,9 @@ public class DemoQaMainPage extends Base{
 
     @LazyAutowired
     private TextBoxSection textBoxSection;
+
+    @FindBy(css = ".fc-cta-consent .fc-button-label")
+    private WebElement acceptCookiesButton;
 
     public TextBoxSection getTextBoxSection() {
         return textBoxSection;
@@ -62,5 +67,11 @@ public class DemoQaMainPage extends Base{
 
     public CheckboxSection getCheckboxSection() {
         return checkboxSection;
+    }
+
+    public void tryToAcceptCookiesIfDisplayed(){
+        if(this.acceptCookiesButton.isDisplayed()){
+            this.acceptCookiesButton.click();
+        }
     }
 }

@@ -116,9 +116,10 @@ public class apiSteps {
     }
 
     private Booking getBookingDetails() {
+        String path = "/" + scenarioContext.get("randomBookingId");
         return given()
                 .spec(restAssuredConfig.requestSpecificationWithoutAuth())
-                .get("/" + scenarioContext.get("randomBookingId"))
+                .get(path)
                 .then()
                 .assertThat()
                 .statusCode(200)
@@ -132,10 +133,15 @@ public class apiSteps {
     @Given("I make a GET request to retrieve a random booking")
     public void iMakeAGETRequestToRetrieveARandomBooking() {
         iMakeARequestToGetAllBookings();
-        List<BookingId> response = (List<BookingId>) scenarioContext.get("response");
-        scenarioContext.set("randomBookingId", response.get(new Random().nextInt(response.size())));
-        getBookingDetails();
-        scenarioContext.set("bookingDetails", getBookingDetails());
+        List<BookingId> allBookingIds = (List<BookingId>) scenarioContext.get("response");
+        String randomBookingId = getRandomBookingId(allBookingIds);
+        scenarioContext.set("randomBookingId", randomBookingId);
+        Booking bookingDetails = getBookingDetails();
+        scenarioContext.set("bookingDetails", bookingDetails);
+    }
+
+    private String getRandomBookingId(List<BookingId> allBookingIds) {
+        return allBookingIds.get(new Random().nextInt(allBookingIds.size())).getBookingid();
     }
 
 
@@ -224,7 +230,7 @@ public class apiSteps {
         int statusCode = given()
                 .spec(restAssuredConfig.requestSpecificationWithAuth())
                 .log().all()
-                .delete("/" + scenarioContext.get("lastBookingId"))
+                .delete("/" + scenarioContext.get("randomBookingId"))
                 .andReturn()
                 .statusCode();
         scenarioContext.set("deleteBookingStatusCode", statusCode);

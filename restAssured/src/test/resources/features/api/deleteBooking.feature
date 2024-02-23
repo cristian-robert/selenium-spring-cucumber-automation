@@ -1,4 +1,4 @@
-@APITest
+@allure.label.layer:web
 Feature: Delete operation on the Restful Booker API
 
   Scenario: Delete a booking

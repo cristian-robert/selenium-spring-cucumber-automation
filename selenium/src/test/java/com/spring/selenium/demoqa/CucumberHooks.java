@@ -2,6 +2,7 @@ package com.spring.selenium.demoqa;
 
 import com.spring.common.annotations.LazyAutowired;
 import com.spring.selenium.driver.service.ScreenshotService;
+import com.spring.selenium.page.demoqa.mainPage.DemoQaMainPage;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
@@ -21,6 +22,9 @@ public class CucumberHooks {
     @LazyAutowired
     private ApplicationContext applicationContext;
 
+    @LazyAutowired
+    private DemoQaMainPage demoQaMainPage;
+
     @Value("${application.url}")
     private String url;
 
@@ -28,6 +32,7 @@ public class CucumberHooks {
     public void beforeScenario(){
         this.applicationContext.getBean(WebDriver.class).manage().deleteAllCookies();
         this.applicationContext.getBean(WebDriver.class).get(url);
+        demoQaMainPage.tryToAcceptCookiesIfDisplayed();
     }
     @AfterStep("@UITest")
     public void afterStep(Scenario scenario) {

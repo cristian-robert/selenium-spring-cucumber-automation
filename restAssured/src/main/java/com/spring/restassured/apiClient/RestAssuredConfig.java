@@ -1,9 +1,9 @@
 package com.spring.restassured.apiClient;
 
+import com.spring.restassured.annotations.ThreadScopeBean;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import static io.restassured.RestAssured.given;
@@ -25,7 +25,7 @@ public class RestAssuredConfig {
     @Value("${api.password}")
     private String password;
 
-    @Bean
+    @ThreadScopeBean
     public RequestSpecification requestSpecificationWithAuth() {
 
         String token = given()
@@ -46,7 +46,7 @@ public class RestAssuredConfig {
                 .build();
     }
 
-    @Bean
+    @ThreadScopeBean
     public RequestSpecification requestSpecificationWithAuthBasic() {
 
         String token = given()
@@ -67,7 +67,7 @@ public class RestAssuredConfig {
                 .build();
     }
 
-    @Bean
+    @ThreadScopeBean
     public RequestSpecification requestSpecificationWithoutAuth() {
         return new RequestSpecBuilder()
                 .setBaseUri(baseUrl)
