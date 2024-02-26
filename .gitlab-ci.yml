@@ -22,7 +22,7 @@ test_a:
   image: markhobson/maven-chrome
   stage: test
   script:
-    - echo '######### THREAD COUNT IS = $THREAD_COUNT ########'
+    - echo "######### THREAD COUNT IS = $THREAD_COUNT"
     - mvn clean test -Dcucumber.filter.tags="@UITest" -Dthread.count=$THREAD_COUNT
   artifacts:
     paths:
