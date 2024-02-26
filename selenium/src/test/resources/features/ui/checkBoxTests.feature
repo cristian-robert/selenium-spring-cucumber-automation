@@ -1,4 +1,5 @@
 @UITest
+@CheckBoxTest
 Feature: Check box tests
 
   Scenario Outline: Checkbox test scenario

@@ -1,4 +1,5 @@
 @APITest
+@UpdateTest
 Feature: Update operation on the Restful Booker API
 
   Scenario: Update a booking

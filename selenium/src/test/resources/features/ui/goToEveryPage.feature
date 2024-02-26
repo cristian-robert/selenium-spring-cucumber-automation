@@ -1,4 +1,5 @@
 @UITest
+@GoToEveryPageTest
 Feature: Access every page of the website
 
   Scenario Outline: Access all pages

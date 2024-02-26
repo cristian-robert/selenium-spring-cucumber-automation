@@ -22,8 +22,7 @@ test_a:
   image: markhobson/maven-chrome
   stage: test
   script:
-    - cd selenium/
-    - mvn clean test -DthreadCount=$THREAD_COUNT
+    - mvn clean test -Dcucumber.filter.tags="@UITest" -DthreadCount=$THREAD_COUNT
   artifacts:
     paths:
       - .
@@ -46,8 +45,7 @@ test_b:
     - HUB_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' selenium-spring-cucumber_hub_1)
     - SELENIUM_HOST=http://$HUBHOST:4444/wd/hub
     - echo SELENIUM_HOST
-    - cd selenium/
-    - mvn clean test -Dspring.profiles.active=remote -Dselenium.grid.url=$SELENIUM_HOST -DthreadCount=$THREAD_COUNT
+    - mvn clean test -Dspring.profiles.active=remote -Dcucumber.filter.tags="@UITest" -Dselenium.grid.url=$SELENIUM_HOST -DthreadCount=$THREAD_COUNT
   artifacts:
     paths:
       - target/
@@ -57,7 +55,7 @@ test_c:
   image: markhobson/maven-chrome
   stage: test
   script:
-    - mvn clean test -Dcucumber.filter.tags="@UITest" -DthreadCount=$THREAD_COUNT
+    - mvn clean test -Dcucumber.filter.tags="@TextBoxTest or @CheckBoxTest" -DthreadCount=$THREAD_COUNT
   artifacts:
     paths:
       - .
@@ -67,8 +65,7 @@ test_d:
   image: markhobson/maven-chrome
   stage: test
   script:
-    - cd restAssured/
-    - mvn clean test
+    - mvn clean test -Dcucumber.filter.tags="@APITest" -DthreadCount=$THREAD_COUNT
   artifacts:
     paths:
       - .
@@ -78,7 +75,7 @@ test_e:
   image: markhobson/maven-chrome
   stage: test
   script:
-    - mvn clean test -Dcucumber.filter.tags="@APITest" -DthreadCount=$THREAD_COUNT
+    - mvn clean test -Dcucumber.filter.tags="@APITest and not @DeleteAPITest" -DthreadCount=$THREAD_COUNT
   artifacts:
     paths:
       - .

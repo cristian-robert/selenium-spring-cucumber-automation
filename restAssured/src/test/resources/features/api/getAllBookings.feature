@@ -1,4 +1,5 @@
 @APITest
+@GetTest
 Feature: Get all bookings
 
   Scenario: Get all bookings

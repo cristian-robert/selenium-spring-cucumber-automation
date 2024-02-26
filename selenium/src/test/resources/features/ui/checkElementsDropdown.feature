@@ -1,4 +1,5 @@
 @UITest
+@CheckElementsDropdownTest
 Feature: Check every elements dropdown element
 
   Scenario Outline: Access all dropdown elements

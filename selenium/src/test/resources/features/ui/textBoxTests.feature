@@ -1,5 +1,5 @@
 @UITest
-@TextBox
+@TextBoxTest
 Feature: Text box tests
 
   Scenario Outline: Check text box positive scenario

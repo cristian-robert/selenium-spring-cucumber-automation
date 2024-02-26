@@ -1,4 +1,5 @@
 @APITest
+@CreateTest
 Feature: Create booking on the Restful Booker API
 
   Scenario: Create a new booking
