@@ -8,7 +8,6 @@
 
 stages:
   - test
-  - report
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
@@ -18,16 +17,6 @@ variables:
 before_script:
   - export DOCKER_HOST
 
-test_a:
-  image: markhobson/maven-chrome
-  stage: test
-  script:
-    - echo "######### THREAD COUNT IS = $THREAD_COUNT"
-    - mvn clean test -Dcucumber.filter.tags="@UITest" -Dthread.count=$THREAD_COUNT
-  artifacts:
-    paths:
-      - .
-    expire_in: 1 week
 
 test_b:
   image: maven:3.8.4-openjdk-17-slim
@@ -51,93 +40,3 @@ test_b:
     paths:
       - target/
     expire_in: 1 week
-
-test_c:
-  image: markhobson/maven-chrome
-  stage: test
-  script:
-    - mvn clean test -Dcucumber.filter.tags="@TextBoxTest or @CheckBoxTest" -Dthread.count=$THREAD_COUNT
-  artifacts:
-    paths:
-      - .
-    expire_in: 1 week
-
-test_d:
-  image: markhobson/maven-chrome
-  stage: test
-  script:
-    - mvn clean test -Dcucumber.filter.tags="@APITest" -Dthread.count=$THREAD_COUNT
-  artifacts:
-    paths:
-      - .
-    expire_in: 1 week
-
-test_e:
-  image: markhobson/maven-chrome
-  stage: test
-  script:
-    - mvn clean test -Dcucumber.filter.tags="@APITest and not @DeleteAPITest" -Dthread.count=$THREAD_COUNT
-  artifacts:
-    paths:
-      - .
-    expire_in: 1 week
-
-report_a:
-  image: maven:3.8.4-openjdk-17-slim
-  stage: report
-  script:
-    - mvn cluecumber-report:reporting
-  artifacts:
-    paths:
-      - target/full/
-    expire_in: 1 week
-    when: always
-  needs: [test_a]
-
-report_b:
-  image: maven:3.8.4-openjdk-17-slim
-  stage: report
-  script:
-    - mvn cluecumber-report:reporting
-  artifacts:
-    paths:
-      - target/full/
-    expire_in: 1 week
-    when: always
-  needs: [test_b]
-
-report_c:
-  image: maven:3.8.4-openjdk-17-slim
-  stage: report
-  script:
-    - mvn cluecumber-report:reporting
-  artifacts:
-    paths:
-      - target/full/
-    expire_in: 1 week
-    when: always
-  needs: [test_c]
-
-report_d:
-  image: maven:3.8.4-openjdk-17-slim
-  stage: report
-  script:
-    - mvn cluecumber-report:reporting
-  artifacts:
-    paths:
-      - target/full/
-    expire_in: 1 week
-    when: always
-  needs: [test_d]
-
-report_e:
-  image: maven:3.8.4-openjdk-17-slim
-  stage: report
-  script:
-    - mvn cluecumber-report:reporting
-  artifacts:
-    paths:
-      - target/full/
-    expire_in: 1 week
-    when: always
-  needs: [test_e]
