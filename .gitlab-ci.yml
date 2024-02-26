@@ -22,7 +22,8 @@ test_a:
   image: markhobson/maven-chrome
   stage: test
   script:
-    - mvn clean test
+    - cd selenium/
+    - mvn clean test -DthreadCount=$THREAD_COUNT
   artifacts:
     paths:
       - .
@@ -45,7 +46,8 @@ test_b:
     - HUB_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' selenium-spring-cucumber_hub_1)
     - SELENIUM_HOST=http://$HUBHOST:4444/wd/hub
     - echo SELENIUM_HOST
-    - mvn clean test -Dspring.profiles.active=remote -Dselenium.grid.url=$SELENIUM_HOST
+    - cd selenium/
+    - mvn clean test -Dspring.profiles.active=remote -Dselenium.grid.url=$SELENIUM_HOST -DthreadCount=$THREAD_COUNT
   artifacts:
     paths:
       - target/
@@ -55,11 +57,33 @@ test_c:
   image: markhobson/maven-chrome
   stage: test
   script:
-    - mvn clean test -Dcucumber.filter.tags="@Smoke or @TextBox"
+    - mvn clean test -Dcucumber.filter.tags="@UITest" -DthreadCount=$THREAD_COUNT
   artifacts:
     paths:
       - .
-    expire_in: 1 week  
+    expire_in: 1 week
+
+test_d:
+  image: markhobson/maven-chrome
+  stage: test
+  script:
+    - cd restAssured/
+    - mvn clean test
+  artifacts:
+    paths:
+      - .
+    expire_in: 1 week
+
+test_e:
+  image: markhobson/maven-chrome
+  stage: test
+  script:
+    - mvn clean test -Dcucumber.filter.tags="@APITest" -DthreadCount=$THREAD_COUNT
+  artifacts:
+    paths:
+      - .
+    expire_in: 1 week
+
 report_a:
   image: maven:3.8.4-openjdk-17-slim
   stage: report
@@ -95,3 +119,27 @@ report_c:
     expire_in: 1 week
     when: always
   needs: [test_c]
+
+report_d:
+  image: maven:3.8.4-openjdk-17-slim
+  stage: report
+  script:
+    - mvn cluecumber-report:reporting
+  artifacts:
+    paths:
+      - target/full/
+    expire_in: 1 week
+    when: always
+  needs: [test_d]
+
+report_e:
+  image: maven:3.8.4-openjdk-17-slim
+  stage: report
+  script:
+    - mvn cluecumber-report:reporting
+  artifacts:
+    paths:
+      - target/full/
+    expire_in: 1 week
+    when: always
+  needs: [test_e]
