@@ -143,7 +143,7 @@
                         <properties>
                             <property>
                                 <name>dataproviderthreadcount</name>
-                                <value>4</value>
+                                <value>${thread.count}</value>
                             </property>
                         </properties>
                         <includes>

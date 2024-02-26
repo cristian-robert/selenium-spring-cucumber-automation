@@ -3,7 +3,6 @@ package com.spring.restassured.apiSteps;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
-
 import com.spring.restassured.apiClient.RestAssuredConfig;
 import com.spring.restassured.apiClient.models.Booking;
 import com.spring.restassured.apiClient.models.BookingDates;
