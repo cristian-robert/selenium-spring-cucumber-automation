@@ -32,10 +32,15 @@ test_b:
     - chmod +x /usr/local/bin/docker-compose
     - docker-compose up -d
     - sleep 60 # Wait for the containers to start
+    - docker ps # List all running containers to verify that the Selenium Hub is up
     - HUB_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' selenium-spring-cucumber_hub_1)
-    - echo $HUB_HOST
+    - echo "HUB_HOST is set to: $HUB_HOST"
     - SELENIUM_HOST=http://$HUB_HOST:4444/wd/hub
-    - echo SELENIUM_HOST
+    - echo "SELENIUM_HOST is set to: $SELENIUM_HOST"
+    #    - HUB_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' selenium-spring-cucumber_hub_1)
+    #    - echo $HUB_HOST
+    #    - SELENIUM_HOST=http://$HUB_HOST:4444/wd/hub
+    #    - echo SELENIUM_HOST
     - mvn clean test -Dspring.profiles.active=remote -Dselenium.grid.url=$SELENIUM_HOST -Dcucumber.filter.tags="@UITest" -Dthread.count=$THREAD_COUNT
   artifacts:
     paths:
