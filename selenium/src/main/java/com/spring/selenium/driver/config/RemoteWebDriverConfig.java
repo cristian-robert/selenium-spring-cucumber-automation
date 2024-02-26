@@ -41,7 +41,7 @@ public class RemoteWebDriverConfig {
     @ConditionalOnProperty(name = "application.browser", havingValue = "chrome")
     public WebDriver remoteChromeDriver(){
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox", "--headless", "--window-size=1920x1080");
+        options.addArguments("--no-sandbox", "--headless", "--disable-gpu");
         return new RemoteWebDriver(this.url, options, false);
     }
 

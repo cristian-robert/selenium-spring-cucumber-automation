@@ -34,9 +34,9 @@ test_b:
     - sleep 60 # Wait for the containers to start
     - docker ps # List all running containers to verify that the Selenium Hub is up
     - HUB_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' selenium-spring-cucumber_hub_1)
-    - echo "HUB_HOST is set to: $HUB_HOST"
+    - echo $HUB_HOST
     - SELENIUM_HOST=http://$HUB_HOST:4444/wd/hub
-    - echo "SELENIUM_HOST is set to: $SELENIUM_HOST"
+    - echo $SELENIUM_HOST
     #    - HUB_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' selenium-spring-cucumber_hub_1)
     #    - echo $HUB_HOST
     #    - SELENIUM_HOST=http://$HUB_HOST:4444/wd/hub
