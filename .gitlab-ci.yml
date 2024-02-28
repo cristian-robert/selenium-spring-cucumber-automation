@@ -42,7 +42,7 @@ test_remote_all_UI_Tests:
     - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     - chmod +x /usr/local/bin/docker-compose
     - docker-compose up -d
-    - sleep 60 # Wait for the containers to start
+    - sleep 150 # Wait for the containers to start
     - docker-compose ps
 #    - HUB_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' selenium-spring-cucumber_hub_1)
     - SELENIUM_HOST=http://localhost:4444/wd/hub
