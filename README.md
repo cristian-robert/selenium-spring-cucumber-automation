@@ -23,6 +23,9 @@ This section will guide you to set up the project in your local environment for 
 2. Import the project into your IDE as a Maven project.
 3. Check if all Maven dependencies specified in ``pom.xml`` file are downloaded and ready to use.
 
+### Running pipelines
+* The pipelines are defined in the `.gitlab-ci.yml` file. You can run the pipelines using GitLab CI/CD.
+
 ### Running Tests
 * Navigate to the project directory in your terminal and execute the command: ``mvn clean test``.
 
