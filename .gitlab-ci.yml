@@ -18,7 +18,7 @@ variables:
 before_script:
   - export DOCKER_HOST
 
-test_a:
+test_all_UI_Tests:
   image: markhobson/maven-chrome
   stage: test
   script:
@@ -29,7 +29,7 @@ test_a:
       - .
     expire_in: 1 week
 
-test_b:
+test_remote_all_UI_Tests:
   image: maven:3.8.4-openjdk-17-slim
   stage: test
   services:
@@ -45,7 +45,7 @@ test_b:
     - sleep 60 # Wait for the containers to start
     - docker-compose ps
     - HUB_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' selenium-spring-cucumber_hub_1)
-    - SELENIUM_HOST=http://$HUBHOST:4444/wd/hub
+    - SELENIUM_HOST=http://$HUB_HOST:4444/wd/hub
     - echo $SELENIUM_HOST
     - mvn clean test -Dspring.profiles.active=remote -Dselenium.grid.url=$SELENIUM_HOST -Dcucumber.filter.tags="@UITest" -Dthread.count=$THREAD_COUNT
   artifacts:
@@ -53,7 +53,7 @@ test_b:
       - target/
     expire_in: 1 week
 
-test_c:
+test_UI_Tests_Tagged:
   image: markhobson/maven-chrome
   stage: test
   script:
@@ -63,7 +63,7 @@ test_c:
       - .
     expire_in: 1 week
 
-test_d:
+test_API_Tests:
   image: markhobson/maven-chrome
   stage: test
   script:
@@ -73,7 +73,7 @@ test_d:
       - .
     expire_in: 1 week
 
-test_e:
+test_API_Tests_Tagged:
   image: markhobson/maven-chrome
   stage: test
   script:
@@ -83,7 +83,7 @@ test_e:
       - .
     expire_in: 1 week
 
-report_a:
+report_all_UI_Tests:
   image: maven:3.8.4-openjdk-17-slim
   stage: report
   script:
@@ -93,9 +93,9 @@ report_a:
       - target/full/
     expire_in: 1 week
     when: always
-  needs: [test_a]
+  needs: [test_all_UI_Tests]
 
-report_b:
+report_remote_all_UI_Tests:
   image: maven:3.8.4-openjdk-17-slim
   stage: report
   script:
@@ -105,9 +105,9 @@ report_b:
       - target/full/
     expire_in: 1 week
     when: always
-  needs: [test_b]
+  needs: [test_remote_all_UI_Tests]
 
-report_c:
+report_UI_Tests_Tagged:
   image: maven:3.8.4-openjdk-17-slim
   stage: report
   script:
@@ -117,9 +117,9 @@ report_c:
       - target/full/
     expire_in: 1 week
     when: always
-  needs: [test_c]
+  needs: [test_UI_Tests_Tagged]
 
-report_d:
+report_API_Tests:
   image: maven:3.8.4-openjdk-17-slim
   stage: report
   script:
@@ -129,9 +129,9 @@ report_d:
       - target/full/
     expire_in: 1 week
     when: always
-  needs: [test_d]
+  needs: [test_API_Tests]
 
-report_e:
+report_API_Tests_Tagged:
   image: maven:3.8.4-openjdk-17-slim
   stage: report
   script:
@@ -141,4 +141,4 @@ report_e:
       - target/full/
     expire_in: 1 week
     when: always
-  needs: [test_e]
+  needs: [test_API_Tests_Tagged]
