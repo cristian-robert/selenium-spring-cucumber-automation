@@ -43,20 +43,19 @@ test_remote_all_UI_Tests:
     - chmod +x /usr/local/bin/docker-compose
     - docker-compose up -d
     - >
-      attempts=0
-      max_attempts=24
-      until [ $attempts -eq $max_attempts ]; do
-        response=$(curl --silent http://localhost:4444/wd/hub/status)
-        echo $response | jq .
-        if [ "$(echo $response | jq -r '.value.ready')" = "true" ]; then
-          break
-        fi
-        attempts=$((attempts+1))
-        sleep 5
-      done
-      if [ $attempts -eq $max_attempts ]; then
-        echo "Selenium Grid Hub did not become ready in time."
-        exit 1
+      attempts=0;
+      max_attempts=24;
+      until [ "$attempts" -eq "$max_attempts" ]; do
+        response=$(curl --silent http://localhost:4444/wd/hub/status);
+        if [ "$(echo "$response" | jq -r '.value.ready')" = "true" ]; then
+          break;
+        fi;
+        attempts=$((attempts + 1));
+        sleep 5;
+      done;
+      if [ "$attempts" -eq "$max_attempts" ]; then
+        echo "Selenium Grid Hub did not become ready in time.";
+        exit 1;
       fi
     - SELENIUM_HOST=http://localhost:4444/wd/hub
     - echo $SELENIUM_HOST
