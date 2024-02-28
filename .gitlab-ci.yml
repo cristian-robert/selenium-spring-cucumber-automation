@@ -43,10 +43,8 @@ test_b:
     - chmod +x /usr/local/bin/docker-compose
     - docker-compose up -d
     - sleep 60 # Wait for the containers to start
-    - HUB_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' selenium-spring-cucumber_hub_1)
-    - SELENIUM_HOST=http://localhost:4444/wd/hub
-    - echo SELENIUM_HOST
-    - mvn clean test -Dspring.profiles.active=remote -Dselenium.grid.url=$SELENIUM_HOST -Dcucumber.filter.tags="@UITest" -Dthread.count=$THREAD_COUNT
+    - docker-compose ps
+    - mvn clean test -Dspring.profiles.active=remote -Dselenium.grid.url=http://localhost:4444/wd/hub -Dcucumber.filter.tags="@UITest" -Dthread.count=$THREAD_COUNT
   artifacts:
     paths:
       - target/
