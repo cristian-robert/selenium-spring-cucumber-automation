@@ -29,28 +29,28 @@ test_a:
       - .
     expire_in: 1 week
 
-#test_b:
-#  image: maven:3.8.4-openjdk-17-slim
-#  stage: test
-#  services:
-#    - docker:dind
-#  script:
-#    - apt-get update
-#    - apt-get install -y curl
-#    - curl -fsSL https://get.docker.com -o get-docker.sh
-#    - sh get-docker.sh
-#    - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-#    - chmod +x /usr/local/bin/docker-compose
-#    - docker-compose up -d
-#    - sleep 60 # Wait for the containers to start
-#    - HUB_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' selenium-spring-cucumber-hub-1)
-#    - SELENIUM_HOST=http://$HUBHOST:4444/wd/hub
-#    - echo SELENIUM_HOST
-#    - mvn clean test -Dspring.profiles.active=remote -Dselenium.grid.url=$SELENIUM_HOST -Dcucumber.filter.tags="@UITest" -Dthread.count=$THREAD_COUNT
-#  artifacts:
-#    paths:
-#      - target/
-#    expire_in: 1 week
+test_b:
+  image: maven:3.8.4-openjdk-17-slim
+  stage: test
+  services:
+    - docker:dind
+  script:
+    - apt-get update
+    - apt-get install -y curl
+    - curl -fsSL https://get.docker.com -o get-docker.sh
+    - sh get-docker.sh
+    - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    - chmod +x /usr/local/bin/docker-compose
+    - docker-compose up -d
+    - sleep 60 # Wait for the containers to start
+    - HUB_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' selenium-spring-cucumber-hub-1)
+    - SELENIUM_HOST=http://$HUBHOST:4444/wd/hub
+    - echo SELENIUM_HOST
+    - mvn clean test -Dspring.profiles.active=remote -Dselenium.grid.url=$SELENIUM_HOST -Dcucumber.filter.tags="@UITest" -Dthread.count=$THREAD_COUNT
+  artifacts:
+    paths:
+      - target/
+    expire_in: 1 week
 
 test_c:
   image: markhobson/maven-chrome
@@ -94,17 +94,17 @@ report_a:
     when: always
   needs: [test_a]
 
-#report_b:
-#  image: maven:3.8.4-openjdk-17-slim
-#  stage: report
-#  script:
-#    - mvn cluecumber-report:reporting
-#  artifacts:
-#    paths:
-#      - target/full/
-#    expire_in: 1 week
-#    when: always
-#  needs: [test_b]
+report_b:
+  image: maven:3.8.4-openjdk-17-slim
+  stage: report
+  script:
+    - mvn cluecumber-report:reporting
+  artifacts:
+    paths:
+      - target/full/
+    expire_in: 1 week
+    when: always
+  needs: [test_b]
 
 report_c:
   image: maven:3.8.4-openjdk-17-slim
