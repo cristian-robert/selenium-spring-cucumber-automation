@@ -1,31 +1,33 @@
 version: "3"
 services:
   hub:
-    shm_size: '2gb'
-    image: selenium/hub:latest
+    image: selenium/hub:4.18.1-20240224
     ports:
       - "4444:4444"
+    shm_size: '2gb'
+
   chrome:
+    image: selenium/node-chrome:4.18.1-20240224
     shm_size: '4gb'
-    image: selenium/node-chrome:4.2.1-20220608
     depends_on:
       - hub
     environment:
-      - SE_EVENT_BUS_HOST=hub
-      - SE_EVENT_BUS_PUBLISH_PORT=4442
-      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
-      - SE_NODE_MAX_INSTANCES=10
-      - SE_NODE_MAX_SESSIONS=10
-      - SE_NODE_SESSION_TIMEOUT=10000000
+      SE_EVENT_BUS_HOST: hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+      SE_NODE_MAX_INSTANCES: 100
+      SE_NODE_MAX_SESSIONS: 100
+      SE_NODE_SESSION_TIMEOUT: 10000000
+
   firefox:
     image: selenium/node-firefox:latest
     shm_size: '4gb'
     depends_on:
       - hub
     environment:
-      - SE_EVENT_BUS_HOST=hub
-      - SE_EVENT_BUS_PUBLISH_PORT=4442
-      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
-      - SE_NODE_MAX_INSTANCES=10
-      - SE_NODE_MAX_SESSIONS=10
-      - SE_NODE_SESSION_TIMEOUT=100000000
+      SE_EVENT_BUS_HOST: hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+      SE_NODE_MAX_INSTANCES: 100
+      SE_NODE_MAX_SESSIONS: 100
+      SE_NODE_SESSION_TIMEOUT: 100000000

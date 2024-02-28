@@ -18,17 +18,18 @@ variables:
 before_script:
   - export DOCKER_HOST
 
-test_a:
+test_all_UI_Tests:
   image: markhobson/maven-chrome
   stage: test
   script:
-    - mvn clean test
+    - echo "######### THREAD COUNT IS = $THREAD_COUNT"
+    - mvn clean test -Dcucumber.filter.tags="@UITest" -Dthread.count=$THREAD_COUNT
   artifacts:
     paths:
       - .
     expire_in: 1 week
 
-test_b:
+test_remote_all_UI_Tests:
   image: maven:3.8.4-openjdk-17-slim
   stage: test
   services:
@@ -41,50 +42,61 @@ test_b:
     - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     - chmod +x /usr/local/bin/docker-compose
     - docker-compose up -d
-    - sleep 60 # Wait for the containers to start
-    - HUB_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' selenium-spring-cucumber_hub_1)
-    - SELENIUM_HOST=http://$HUBHOST:4444/wd/hub
-    - echo SELENIUM_HOST
-    - mvn clean test -Dspring.profiles.active=remote -Dselenium.grid.url=$SELENIUM_HOST
+    - >
+      attempts=0
+      max_attempts=24
+      until [ $attempts -eq $max_attempts ]; do
+        response=$(curl --silent http://localhost:4444/wd/hub/status)
+        echo $response | jq .
+        if [ "$(echo $response | jq -r '.value.ready')" = "true" ]; then
+          break
+        fi
+        attempts=$((attempts+1))
+        sleep 5
+      done
+      if [ $attempts -eq $max_attempts ]; then
+        echo "Selenium Grid Hub did not become ready in time."
+        exit 1
+      fi
+    - SELENIUM_HOST=http://localhost:4444/wd/hub
+    - echo $SELENIUM_HOST
+    - mvn clean test -Dspring.profiles.active=remote -Dselenium.grid.url=$SELENIUM_HOST -Dcucumber.filter.tags="@UITest" -Dthread.count=$THREAD_COUNT
   artifacts:
     paths:
       - target/
     expire_in: 1 week
 
-test_c:
+test_UI_Tests_Tagged:
   image: markhobson/maven-chrome
   stage: test
   script:
-    - mvn clean test -Dcucumber.filter.tags="@Smoke or @TextBox"
+    - mvn clean test -Dcucumber.filter.tags="@TextBoxTest or @CheckBoxTest" -Dthread.count=$THREAD_COUNT
   artifacts:
     paths:
       - .
-    expire_in: 1 week  
-report_a:
-  image: maven:3.8.4-openjdk-17-slim
-  stage: report
-  script:
-    - mvn cluecumber-report:reporting
-  artifacts:
-    paths:
-      - target/full/
     expire_in: 1 week
-    when: always
-  needs: [test_a]
 
-report_b:
-  image: maven:3.8.4-openjdk-17-slim
-  stage: report
+test_API_Tests:
+  image: markhobson/maven-chrome
+  stage: test
   script:
-    - mvn cluecumber-report:reporting
+    - mvn clean test -Dcucumber.filter.tags="@APITest" -Dthread.count=$THREAD_COUNT
   artifacts:
     paths:
-      - target/full/
+      - .
     expire_in: 1 week
-    when: always
-  needs: [test_b]
 
-report_c:
+test_API_Tests_Tagged:
+  image: markhobson/maven-chrome
+  stage: test
+  script:
+    - mvn clean test -Dcucumber.filter.tags="@APITest and not @DeleteAPITest" -Dthread.count=$THREAD_COUNT
+  artifacts:
+    paths:
+      - .
+    expire_in: 1 week
+
+report_all_UI_Tests:
   image: maven:3.8.4-openjdk-17-slim
   stage: report
   script:
@@ -94,4 +106,52 @@ report_c:
       - target/full/
     expire_in: 1 week
     when: always
-  needs: [test_c]
+  needs: [ test_all_UI_Tests ]
+
+report_remote_all_UI_Tests:
+  image: maven:3.8.4-openjdk-17-slim
+  stage: report
+  script:
+    - mvn cluecumber-report:reporting
+  artifacts:
+    paths:
+      - target/full/
+    expire_in: 1 week
+    when: always
+  needs: [ test_remote_all_UI_Tests ]
+
+report_UI_Tests_Tagged:
+  image: maven:3.8.4-openjdk-17-slim
+  stage: report
+  script:
+    - mvn cluecumber-report:reporting
+  artifacts:
+    paths:
+      - target/full/
+    expire_in: 1 week
+    when: always
+  needs: [ test_UI_Tests_Tagged ]
+
+report_API_Tests:
+  image: maven:3.8.4-openjdk-17-slim
+  stage: report
+  script:
+    - mvn cluecumber-report:reporting
+  artifacts:
+    paths:
+      - target/full/
+    expire_in: 1 week
+    when: always
+  needs: [ test_API_Tests ]
+
+report_API_Tests_Tagged:
+  image: maven:3.8.4-openjdk-17-slim
+  stage: report
+  script:
+    - mvn cluecumber-report:reporting
+  artifacts:
+    paths:
+      - target/full/
+    expire_in: 1 week
+    when: always
+  needs: [ test_API_Tests_Tagged ]
