@@ -42,14 +42,13 @@ test_remote_all_UI_Tests:
     - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     - chmod +x /usr/local/bin/docker-compose
     - docker-compose up -d
-    - sleep 150 # Wait for the containers to start
-    - docker-compose ps
-    - HUB_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' selenium-spring-cucumber_hub_1)
-    - SELENIUM_HOST=http://$HUB_HOST:4444/wd/hub
-    - docker compose logs
+    - until $(curl --output /dev/null --silent --head --fail http://localhost:4444/wd/hub/status); do
+        printf '.'
+        sleep 5
+      done
+    - SELENIUM_HOST=http://localhost:4444/wd/hub
     - echo $SELENIUM_HOST
     - mvn clean test -Dspring.profiles.active=remote -Dselenium.grid.url=$SELENIUM_HOST -Dcucumber.filter.tags="@UITest" -Dthread.count=$THREAD_COUNT
-    - docker compose logs
   artifacts:
     paths:
       - target/
@@ -95,7 +94,7 @@ report_all_UI_Tests:
       - target/full/
     expire_in: 1 week
     when: always
-  needs: [test_all_UI_Tests]
+  needs: [ test_all_UI_Tests ]
 
 report_remote_all_UI_Tests:
   image: maven:3.8.4-openjdk-17-slim
@@ -107,7 +106,7 @@ report_remote_all_UI_Tests:
       - target/full/
     expire_in: 1 week
     when: always
-  needs: [test_remote_all_UI_Tests]
+  needs: [ test_remote_all_UI_Tests ]
 
 report_UI_Tests_Tagged:
   image: maven:3.8.4-openjdk-17-slim
@@ -119,7 +118,7 @@ report_UI_Tests_Tagged:
       - target/full/
     expire_in: 1 week
     when: always
-  needs: [test_UI_Tests_Tagged]
+  needs: [ test_UI_Tests_Tagged ]
 
 report_API_Tests:
   image: maven:3.8.4-openjdk-17-slim
@@ -131,7 +130,7 @@ report_API_Tests:
       - target/full/
     expire_in: 1 week
     when: always
-  needs: [test_API_Tests]
+  needs: [ test_API_Tests ]
 
 report_API_Tests_Tagged:
   image: maven:3.8.4-openjdk-17-slim
@@ -143,4 +142,4 @@ report_API_Tests_Tagged:
       - target/full/
     expire_in: 1 week
     when: always
-  needs: [test_API_Tests_Tagged]
+  needs: [ test_API_Tests_Tagged ]
