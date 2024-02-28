@@ -42,7 +42,8 @@ test_remote_all_UI_Tests:
     - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     - chmod +x /usr/local/bin/docker-compose
     - docker-compose up -d
-    - until $(curl --output /dev/null --silent --head --fail http://localhost:4444/wd/hub/status); do
+    - |
+      until $(curl --output /dev/null --silent --head --fail http://localhost:4444/wd/hub/status); do
         printf '.'
         sleep 5
       done
