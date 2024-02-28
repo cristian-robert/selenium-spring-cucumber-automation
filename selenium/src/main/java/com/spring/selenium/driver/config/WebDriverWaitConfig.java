@@ -15,7 +15,7 @@ import java.time.Duration;
 @LazyConfiguration
 public class WebDriverWaitConfig {
 
-    @Value("${default.timeout:30}")
+    @Value("${default.timeout}")
     private int timeout;
 
     @Bean

@@ -2,12 +2,14 @@ version: "3"
 services:
   hub:
     shm_size: '2gb'
-    image: selenium/hub:latest
+    image: selenium/hub:4.18.1-20240224
     ports:
+      - "4442:4442"
+      - "4443:4443"
       - "4444:4444"
   chrome:
     shm_size: '4gb'
-    image: selenium/node-chrome:latest
+    image: selenium/node-chrome:4.18.1-20240224
     depends_on:
       - hub
     environment:
@@ -26,6 +28,6 @@ services:
       - SE_EVENT_BUS_HOST=hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
-      - SE_NODE_MAX_INSTANCES=100
-      - SE_NODE_MAX_SESSIONS=100
+      - SE_NODE_MAX_INSTANCES=10
+      - SE_NODE_MAX_SESSIONS=10
       - SE_NODE_SESSION_TIMEOUT=100000000

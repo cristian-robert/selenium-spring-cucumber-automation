@@ -22,13 +22,14 @@
     </modules>
     <properties>
         <allure.version>2.24.0</allure.version>
-        <selenium.version>4.14.1</selenium.version>
+        <selenium.version>4.18.1</selenium.version>
         <webdrivermanager.version>5.5.3</webdrivermanager.version>
         <testng.version>7.6.0</testng.version>
         <java.version>17</java.version>
         <cluecumber.version>2.7.0</cluecumber.version>
         <restAssured.version>5.3.2</restAssured.version>
         <aspectj.version>1.9.20.1</aspectj.version>
+        <cucumber.version>7.15.0</cucumber.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -79,19 +80,19 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>7.15.0</version>
+            <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-spring</artifactId>
-            <version>7.15.0</version>
+            <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-testng</artifactId>
-            <version>7.15.0</version>
+            <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -120,11 +121,6 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jdk8</artifactId>
             <version>LATEST</version> <!-- Use the appropriate version -->
-        </dependency>
-        <dependency>
-            <groupId>com.github.javafaker</groupId>
-            <artifactId>javafaker</artifactId>
-            <version>1.0.2</version>
         </dependency>
 
     </dependencies>
