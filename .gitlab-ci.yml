@@ -43,10 +43,22 @@ test_remote_all_UI_Tests:
     - chmod +x /usr/local/bin/docker-compose
     - docker-compose up -d
     - |
-      until $(curl --output /dev/null --silent --head --fail http://localhost:4444/wd/hub/status); do
-        printf '.'
-        sleep 5
+      attempts=0
+      max_attempts=50 # Timeout after 120 seconds, or 2 minutes.
+      ready=false
+      until [ "$ready" = true ] || [ $attempts -eq $max_attempts ]; do
+        response=$(curl --silent http://localhost:4444/wd/hub/status)
+        if [ $(echo "$response" | jq '.value.ready') = "true" ]; then
+          ready=true
+        else
+          sleep 5
+          attempts=$((attempts+1))
+        fi
       done
+      if [ "$ready" != true ]; then
+        echo "Selenium Grid Hub did not become ready in time."
+        exit 1
+      fi
     - SELENIUM_HOST=http://localhost:4444/wd/hub
     - echo $SELENIUM_HOST
     - mvn clean test -Dspring.profiles.active=remote -Dselenium.grid.url=$SELENIUM_HOST -Dcucumber.filter.tags="@UITest" -Dthread.count=$THREAD_COUNT
