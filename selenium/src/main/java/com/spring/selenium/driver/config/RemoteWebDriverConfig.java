@@ -34,6 +34,7 @@ public class RemoteWebDriverConfig {
         FirefoxOptions firefoxOptions = new FirefoxOptions();
         FirefoxProfile profile = new FirefoxProfile();
         firefoxOptions.setProfile(profile);
+        firefoxOptions.addArguments("--no-sandbox", "--headless", "--disable-gpu", "--window-size=1920,1200");
         return new RemoteWebDriver(this.url, firefoxOptions, false);
     }
 
@@ -41,7 +42,7 @@ public class RemoteWebDriverConfig {
     @ConditionalOnProperty(name = "application.browser", havingValue = "chrome")
     public WebDriver remoteChromeDriver(){
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox", "--headless", "--disable-gpu");
+        options.addArguments("--no-sandbox", "--headless", "--disable-gpu", "--window-size=1920,1200");
         return new RemoteWebDriver(this.url, options, false);
     }
 
