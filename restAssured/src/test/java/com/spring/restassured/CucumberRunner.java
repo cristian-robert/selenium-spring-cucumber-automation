@@ -1,13 +1,19 @@
 package com.spring.restassured;
 
+import io.cucumber.spring.CucumberContextConfiguration;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.testng.annotations.DataProvider;
 
 /**
  * @author cristian_iosef
  */
 
+@CucumberContextConfiguration
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ContextConfiguration
 @CucumberOptions(
         features = "classpath:features",
         glue ={"com.spring.restassured.apiSteps"},

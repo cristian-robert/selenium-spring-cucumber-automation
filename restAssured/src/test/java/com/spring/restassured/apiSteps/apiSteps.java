@@ -3,7 +3,7 @@ package com.spring.restassured.apiSteps;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
-import com.spring.restassured.apiClient.RestAssuredConfig;
+import com.spring.restassured.apiClient.*;
 import com.spring.restassured.apiClient.models.Booking;
 import com.spring.restassured.apiClient.models.BookingDates;
 import com.spring.restassured.apiClient.models.BookingId;
@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.given;
 
@@ -37,7 +38,18 @@ public class apiSteps {
     private String bookingId;
     private Faker faker = new Faker();
 
+    @Autowired
+    KafkaProducerService kafkaProducerService;
 
+    @Autowired
+    KafkaConsumerService kafkaConsumerService;
+
+    @Autowired
+    MathProducerService mathProducerService;
+    @Autowired
+    MathConsumerService mathConsumerService;
+    @Autowired
+    ResultConsumerService resultConsumerService;
     @Given("I make a request to get all bookings")
     public void iMakeARequestToGetAllBookings() {
         List<BookingId> response = given()
@@ -250,4 +262,46 @@ public class apiSteps {
                 .statusCode(404);
     }
 
+    @Given("I send a message {string} to kafka topic")
+    public void iSendAMessageToKafkaTopic(String message) {
+        if(message.equals("generateRandomMessage")) {
+            scenarioContext.set("kafkaRandomMessage", faker.lorem().sentence());
+            Math.addExact(1,1);
+        }
+        kafkaProducerService.sendMessage(scenarioContext.get("kafkaRandomMessage").toString());
+    }
+
+
+    @Then("I should receive the message {string} from kafka topic")
+    public void iShouldReceiveTheMessageFromKafkaTopic(String message) throws InterruptedException {
+        String actualMessage = null;
+        if(message.equals("generateRandomMessage")) {
+            actualMessage = scenarioContext.get("kafkaRandomMessage").toString();
+        }
+        
+        kafkaConsumerService.resetLatch(1); // Expecting one message
+        boolean messageReceived = kafkaConsumerService.waitForMessage(10, TimeUnit.SECONDS);
+        Assert.assertTrue(messageReceived, "The expected message was not received within the timeout period");
+        List<String> messages = kafkaConsumerService.getMessages();
+        Assert.assertTrue(messages.contains(actualMessage), "The expected message was not received");
+    }
+
+    private void waitForMessage() {
+        try {
+            // Adjust the sleep time based on your environment
+            Thread.sleep(10000); // Wait a bit for the message to be consumed
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    @Given("I send a message for calculation with {string} and {string} to add")
+    public void iSendAMessageForCalculationWithAndToAdd(String arg0, String arg1) {
+        mathProducerService.sendNumbers("mathProducer", Integer.parseInt(arg0), Integer.parseInt(arg1), "add");
+    }
+
+    @Then("I should receive the message {string} from kafka result topic")
+    public void iShouldReceiveTheMessageFromKafkaResultTopic(String arg0) {
+        Assert.assertEquals(scenarioContext.get("result"), arg0);
+    }
 }
