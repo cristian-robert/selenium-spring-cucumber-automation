@@ -1,14 +1,13 @@
 package com.spring.selenium.driver.config;
 
 import com.github.javafaker.Faker;
-
 import com.spring.common.annotations.LazyConfiguration;
-import org.springframework.context.annotation.Bean;
+import com.spring.selenium.driver.annotations.BrowserScopeBean;
 
 @LazyConfiguration
 public class FakerConfig {
 
-    @Bean
+    @BrowserScopeBean
     public Faker getFaker(){
         return new Faker();
     }
