@@ -1,5 +1,6 @@
 package com.spring.selenium.page.utils;
 
+import com.spring.selenium.driver.config.ActionsConfig;
 import com.spring.selenium.page.Base;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -19,6 +20,8 @@ public class Utils extends Base {
     @Autowired
     private ApplicationContext applicationContext;
 
+    @Autowired
+    private ActionsConfig actionsConfig;
 
     public void scrollAndClickJs(WebElement element){
         wait.until(d -> element.isDisplayed() && element.isEnabled());
@@ -45,5 +48,14 @@ public class Utils extends Base {
 
     public boolean isElementDisplayed(WebElement element){
         return wait.until(d -> element.isDisplayed() && element.isEnabled());
+    }
+
+    public void scrollToElement(WebElement element) {
+        ((JavascriptExecutor) this.applicationContext.getBean(WebDriver.class)).executeScript("arguments[0].scrollIntoView(true);", element);
+    }
+
+    public void hoverElement(WebElement element) {
+        wait.until(d -> element.isDisplayed());
+        actionsConfig.actions(driver).moveToElement(element).perform();
     }
 }

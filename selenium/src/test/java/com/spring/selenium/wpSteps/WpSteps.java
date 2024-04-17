@@ -162,4 +162,10 @@ public class WpSteps{
         String email = jdbcTemplate.queryForMap(sql).get("billing_email").toString();
         Assert.assertEquals(email, emailAddress);
     }
+
+    @And("I check for cart to have {int} items")
+    public void iCheckForCartToHaveItems(int count) {
+
+        homePage.getHomePageHeaderFragment().removeAllItemsFromCart();
+    }
 }

@@ -127,8 +127,6 @@ public class CheckoutPageMainFragment extends Base {
             utils.waitClearSendKeys(shippingAddressPhone, phone);
             utils.waitClearSendKeys(countrySelect, country);
             countrySelect.sendKeys(Keys.ENTER);
-            utils.waitClearSendKeys(shippingAddressState, state);
-            countrySelect.sendKeys(Keys.ENTER);
             utils.waitClearSendKeys(shippingAddressPostcode, postcode);
             utils.scrollAndClickJs(useSameAddressCheckbox);
         }
