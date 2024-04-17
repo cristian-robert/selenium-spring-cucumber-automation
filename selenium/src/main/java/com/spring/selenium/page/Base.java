@@ -27,7 +27,6 @@ public abstract class Base {
         PageFactory.initElements(this.driver, this);
     }
 
-    public abstract boolean isAt();
 
     @PreDestroy
     public void close(){

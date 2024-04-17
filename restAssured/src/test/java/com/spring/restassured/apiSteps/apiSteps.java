@@ -37,7 +37,6 @@ public class apiSteps {
     private String bookingId;
     private Faker faker = new Faker();
 
-
     @Given("I make a request to get all bookings")
     public void iMakeARequestToGetAllBookings() {
         List<BookingId> response = given()
@@ -249,5 +248,6 @@ public class apiSteps {
                 .assertThat()
                 .statusCode(404);
     }
+
 
 }
